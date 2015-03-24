@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head><h4>
+	<title></title>
+</h4></h:head>
+
+<h:body> 
+	<h:form id="formMenu">
+	<p:growl id="messages"/>
+ 
+    <p:menubar>
+        <p:submenu label="Archivo" icon="ui-icon-document">
+            <p:submenu label="Nuevo" icon="ui-icon-contact">
+                <p:menuitem value="Bitácora" url="#" />
+                <p:menuitem value="Otro" url="#" />
+            </p:submenu>
+            <p:menuitem value="Abrir" url="#" />
+            <p:separator />
+            <p:menuitem value="Salir" url="#" />
+        </p:submenu>
+ 
+        <p:submenu label="Editar" icon="ui-icon-pencil">
+            <p:menuitem value="Bitácora anterior" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+        </p:submenu>
+ 
+        <p:submenu label="Ayuda" icon="ui-icon-help">
+            <p:menuitem value="Contenido" url="#" />
+            <p:submenu label="Buscar" icon="ui-icon-search">
+                <p:submenu label="Texto">
+                    <p:menuitem value="Workspace" url="#" />
+                </p:submenu>
+                <p:menuitem value="Bitácora" url="#" />
+            </p:submenu>
+        </p:submenu>
+ 
+        <p:submenu label="Actions" icon="ui-icon-gear">
+            <p:submenu label="Ajax" icon="ui-icon-refresh">
+                <p:menuitem value="Save" actionListener="#{menuView.save}" icon="ui-icon-disk" update="messages"/>
+                <p:menuitem value="Update" actionListener="#{menuView.update}" icon="ui-icon-arrowrefresh-1-w" update="messages"/>
+            </p:submenu>
+            <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
+                <p:menuitem value="Delete" actionListener="#{menuView.delete}" icon="ui-icon-close" update="messages" ajax="false"/>
+            </p:submenu>
+        </p:submenu>
+ 
+        <p:menuitem value="Salir" url="http://www.primefaces.org" icon="ui-icon-close" />
+ 
+        <f:facet name="options">
+            <p:inputText style="margin-right:10px" placeholder="Search"/>
+            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+        </f:facet>
+    </p:menubar>
+</h:form>
+
+		
+</h:body>
+</html>

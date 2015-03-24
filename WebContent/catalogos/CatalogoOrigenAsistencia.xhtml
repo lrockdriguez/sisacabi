@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Sisacabi V 9.1</title>
+</h:head>
+
+<h:body>
+
+	<h:form id="formOrigen">
+		<h1>Origen Asistencia</h1>
+		<p:panel id="pnl" header="Origen Asistencia" style="margin-bottom:10px;"
+			rendered="true">
+			<!-- 
+			<p:blockUI block="formActividad"
+				trigger="idButtonGuardarActividad,eliminarConfirmarActividad">
+       							 CARGANDO<br />
+				<p:ajaxStatus id="ajaxStatusPanel" style="margin-top:0"
+					update="@form">
+					<f:facet name="start">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+					<f:facet name="complete">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+				</p:ajaxStatus>
+				<p:graphicImage name="demo/images/ajaxloadingbar.gif" /> 
+			</p:blockUI>-->
+			<p:dataTable id="tableNombre" 
+				widgetVar="dataTableWidgetVar"
+				var="origen" 
+				value="#{origenAsistenciaSisddeqController.listaOrigen}"
+				rows="10" 
+				selectionMode="single"
+				selection="#{origenAsistenciaSisddeqController.origen}"
+				rowKey="#{origen.idOAsistencia}" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30">
+				<p:ajax event="rowSelect"
+					update=":#{p:component('idInputNombreOrigen')},:#{p:component('idInputDescripcionOrigen')}"
+					listener="#{origenAsistenciaSisddeqController.onRowSelect}" />
+
+
+				<!-- <p:column headerText="Id">
+				<h:outputText value="#{actividad.idEstado}" />
+			</p:column> -->
+
+
+				<p:column headerText="nombre">
+					<h:outputText value="#{origen.nombre}" />
+				</p:column>
+
+
+				<p:column headerText="Descripcion">
+					<h:outputText value="#{origen.descripcion}" />
+				</p:column>
+
+
+
+			</p:dataTable>
+
+			<p:commandButton id="idButtonCrearOrigen"
+				oncomplete="PF('origenDialog').show()" value="Crear"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="actualizaOrigen"
+				oncomplete="PF('origenDialog').show()" value="Actualizar"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="eliminarOrigen" value="Eliminar"
+				oncomplete="PF('actividadEliminarDialog').show()" />
+
+			<p:dialog id="idOrigenDialog" modal="true" showEffect="fade"
+				hideEffect="fade" widgetVar="origenDialog">
+
+				<h:panelGrid id="idPanelCrearOrigen" columns="2">
+					<p:outputLabel for="idInputNombreOrigen" value="nombre: "
+						style="font-weight:bold" />
+					<p:inputText id="idInputNombreOrigen"
+						value="#{origenAsistenciaSisddeqController.nombre}" />
+					<p:outputLabel for="idInputDescripcionOrigen"
+						value="Descripción: " style="font-weight:bold" />
+					<p:inputText id="idInputDescripcionOrigen"
+						value="#{origenAsistenciaSisddeqController.descripcion}" />
+				</h:panelGrid>
+
+				<p:commandButton id="idButtonGuardarOrigen"
+					update="formOrigen:tableNombre,formOrigen,:#{p:component('pnl')}"
+					ajax="true" type="submit" value="Guardar"
+					oncomplete="PF('origenDialog').hide()"
+					actionListener="#{origenAsistenciaSisddeqController.crearOrigen}" />
+
+				<p:commandButton id="SalirInsertarOrigen" value="Salir"
+					onclick="PF('origenDialog').hide()" />
+			</p:dialog>
+
+			<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+				widgetVar="actividadEliminarDialog">
+
+				<h:panelGrid id="idPanelEliminarOrigen" columns="2">
+					<p>¿Desea eliminar el registro?</p>
+				</h:panelGrid>
+
+				<p:commandButton id="eliminarConfirmarOrigen" value="Si"
+					type="submit" ajax="true"
+					update="formOrigen:tableNombre,formOrigen,:#{p:component('pnl')}"
+					actionListener="#{origenAsistenciaSisddeqController.eliminarOrigen}"
+					oncomplete="PF('eliminarSalirOrigen').hide()" />
+				<p:commandButton id="eliminarSalirOrigen" value="No"
+					onclick="PF('eliminarSalirOrigen').hide()" />
+			</p:dialog>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

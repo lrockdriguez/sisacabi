@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Sisacabi V 9.1</title>
+</h:head>
+
+<h:body>
+
+	<h:form id="formActividad">
+		<h1>Selecciona la actividad</h1>
+		<p:panel id="pnl" header="Actividades" style="margin-bottom:10px;"
+			rendered="true">
+			<!-- 
+			<p:blockUI block="formActividad"
+				trigger="idButtonGuardarActividad,eliminarConfirmarActividad">
+       							 CARGANDO<br />
+				<p:ajaxStatus id="ajaxStatusPanel" style="margin-top:0"
+					update="@form">
+					<f:facet name="start">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+					<f:facet name="complete">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+				</p:ajaxStatus>
+				<p:graphicImage name="demo/images/ajaxloadingbar.gif" /> 
+			</p:blockUI>-->
+			<p:dataTable id="tableNombre" widgetVar="dataTableWidgetVar"
+				var="actividad" value="#{estadoActividadController.listaActividad}"
+				rows="10" selectionMode="single"
+				selection="#{estadoActividadController.actividad}"
+				rowKey="#{actividad.idEstado}" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30">
+				<p:ajax event="rowSelect"
+					update=":#{p:component('idInputNombreActividad')},:#{p:component('idInputDescripcionActividad')}"
+					listener="#{estadoActividadController.onRowSelect}" />
+
+
+				<!-- <p:column headerText="Id">
+				<h:outputText value="#{actividad.idEstado}" />
+			</p:column> -->
+
+
+				<p:column headerText="nombre">
+					<h:outputText value="#{actividad.nombre}" />
+				</p:column>
+
+
+				<p:column headerText="Descripcion">
+					<h:outputText value="#{actividad.descripcion}" />
+				</p:column>
+
+
+
+			</p:dataTable>
+
+			<p:commandButton id="idButtonCrearActividad"
+				oncomplete="PF('actividadDialog').show()" value="Crear"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="actualizaActividad"
+				oncomplete="PF('actividadDialog').show()" value="Actualizar"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="eliminarActividad" value="Eliminar"
+				oncomplete="PF('actividadEliminarDialog').show()" />
+
+			<p:dialog id="idActividadDialog" modal="true" showEffect="fade"
+				hideEffect="fade" widgetVar="actividadDialog">
+
+				<h:panelGrid id="idPanelCrearActividad" columns="2">
+					<p:outputLabel for="idInputNombreActividad" value="nombre: "
+						style="font-weight:bold" />
+					<p:inputText id="idInputNombreActividad"
+						value="#{estadoActividadController.nombre}" />
+					<p:outputLabel for="idInputDescripcionActividad"
+						value="Descripción: " style="font-weight:bold" />
+					<p:inputText id="idInputDescripcionActividad"
+						value="#{estadoActividadController.descripcion}" />
+				</h:panelGrid>
+
+				<p:commandButton id="idButtonGuardarActividad"
+					update="formActividad:tableNombre,formActividad,:#{p:component('pnl')}"
+					ajax="true" type="submit" value="Guardar"
+					oncomplete="PF('actividadDialog').hide()"
+					actionListener="#{estadoActividadController.crearActividad}" />
+
+				<p:commandButton id="SalirInsertarActividad" value="Salir"
+					onclick="PF('actividadDialog').hide()" />
+			</p:dialog>
+
+			<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+				widgetVar="actividadEliminarDialog">
+
+				<h:panelGrid id="idPanelEliminarActividad" columns="2">
+					<p>¿Desea eliminar el registro?</p>
+				</h:panelGrid>
+
+				<p:commandButton id="eliminarConfirmarActividad" value="Si"
+					type="submit" ajax="true"
+					update="formActividad:tableNombre,formActividad,:#{p:component('pnl')}"
+					actionListener="#{estadoActividadController.eliminarActividad}"
+					oncomplete="PF('eliminarSalirActividad').hide()" />
+				<p:commandButton id="eliminarSalirActividad" value="No"
+					onclick="PF('eliminarSalirActividad').hide()" />
+			</p:dialog>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>	

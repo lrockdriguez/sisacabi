@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Sisacabi V 9.1</title>
+</h:head>
+
+<h:body>
+
+	<h:form id="formProposito">
+		<h1>Propósito</h1>
+		<p:panel id="pnl" header="Propósito" style="margin-bottom:10px;"
+			rendered="true">
+
+			<p:dataTable id="tableNombre" widgetVar="dataTableWidgetVar"
+				var="proposito" value="#{propositoController.listaProposito }"
+				rows="10" selectionMode="single"
+				selection="#{propositoController.proposito}"
+				rowKey="#{proposito.idProposito}" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30">
+				<p:ajax event="rowSelect"
+					update=":#{p:component('idInputNombreProposito')},:#{p:component('idInputDescripcionProposito')}"
+					listener="#{propositoController.onRowSelect}" />
+
+
+				<!-- <p:column headerText="Id">
+				<h:outputText value="#{actividad.idEstado}" />
+			</p:column> -->
+
+
+				<p:column headerText="nombre">
+					<h:outputText value="#{proposito.nombre}" />
+				</p:column>
+
+
+				<p:column headerText="Descripcion">
+					<h:outputText value="#{proposito.descripcion}" />
+				</p:column>
+
+
+
+			</p:dataTable>
+
+			<p:commandButton id="idButtonCrearProposito"
+				oncomplete="PF('propositoDialog').show()" value="Crear"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="actualizaProposito"
+				oncomplete="PF('propositoDialog').show()" value="Actualizar"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="eliminarProposito" value="Eliminar"
+				oncomplete="PF('actividadEliminarDialog').show()" />
+
+			<p:dialog id="idPropositoDialog" modal="true" showEffect="fade"
+				hideEffect="fade" widgetVar="propositoDialog">
+
+				<h:panelGrid id="idPanelCrearProposito" columns="2">
+					<p:outputLabel for="idInputNombreProposito" value="nombre: "
+						style="font-weight:bold" />
+					<p:inputText id="idInputNombreProposito"
+						value="#{propositoController.nombre}" />
+					<p:outputLabel for="idInputDescripcionProposito"
+						value="Descripción: " style="font-weight:bold" />
+					<p:inputText id="idInputDescripcionProposito"
+						value="#{propositoController.descripcion}" />
+				</h:panelGrid>
+
+				<p:commandButton id="idButtonGuardarProposito"
+					update="formProposito:tableNombre,formProposito,:#{p:component('pnl')}"
+					ajax="true" type="submit" value="Guardar"
+					oncomplete="PF('propositoDialog').hide()"
+					actionListener="#{propositoController.crearProposito}" />
+
+				<p:commandButton id="SalirInsertarProposito" value="Salir"
+					onclick="PF('propositoDialog').hide()" />
+			</p:dialog>
+
+			<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+				widgetVar="actividadEliminarDialog">
+
+				<h:panelGrid id="idPanelEliminarProposito" columns="2">
+					<p>¿Desea eliminar el registro?</p>
+				</h:panelGrid>
+
+				<p:commandButton id="eliminarConfirmarProposito" value="Si"
+					type="submit" ajax="true"
+					update="formProposito:tableNombre,formProposito,:#{p:component('pnl')}"
+					actionListener="#{propositoController.eliminarProposito}"
+					oncomplete="PF('eliminarSalirProposito').hide()" />
+				<p:commandButton id="eliminarSalirProposito" value="No"
+					onclick="PF('eliminarSalirProposito').hide()" />
+			</p:dialog>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

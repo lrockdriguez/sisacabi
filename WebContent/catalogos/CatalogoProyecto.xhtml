@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Sisacabi V 9.1</title>
+</h:head>
+
+<h:body>
+
+	<h:form id="formProyectos">
+		<h1>Selecciona la proyectos</h1>
+		<p:panel id="pnl" header="Proyectoses" style="margin-bottom:10px;"
+			rendered="true">
+			<!-- 
+			<p:blockUI block="formProyectos"
+				trigger="idButtonGuardarProyectos,eliminarConfirmarProyectos">
+       							 CARGANDO<br />
+				<p:ajaxStatus id="ajaxStatusPanel" style="margin-top:0"
+					update="@form">
+					<f:facet name="start">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+					<f:facet name="complete">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+				</p:ajaxStatus>
+				<p:graphicImage name="demo/images/ajaxloadingbar.gif" /> 
+			</p:blockUI>-->
+			<p:dataTable id="tableNombre" widgetVar="dataTableWidgetVar"
+				var="proyectos" value="#{proyectoController.listaProyectos}"
+				rows="10" selectionMode="single"
+				selection="#{proyectoController.proyectos}"
+				rowKey="#{proyectos.idProyecto}" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30">
+				<p:ajax event="rowSelect"
+					update=":#{p:component('idInputNombreProyectos')},:#{p:component('idInputDescripcionProyectos')}"
+					listener="#{proyectoController.onRowSelect}" />
+
+
+				<!-- <p:column headerText="Id">
+				<h:outputText value="#{proyectos.idEstado}" />
+			</p:column> -->
+
+
+				<p:column headerText="nombre">
+					<h:outputText value="#{proyectos.nombre}" />
+				</p:column>
+
+
+				<p:column headerText="Descripcion">
+					<h:outputText value="#{proyectos.descripcion}" />
+				</p:column>
+
+
+
+			</p:dataTable>
+
+			<p:commandButton id="idButtonCrearProyectos"
+				oncomplete="PF('proyectosDialog').show()" value="Crear"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="actualizaProyectos"
+				oncomplete="PF('proyectosDialog').show()" value="Actualizar"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="eliminarProyectos" value="Eliminar"
+				oncomplete="PF('proyectosEliminarDialog').show()" />
+
+			<p:dialog id="idProyectosDialog" modal="true" showEffect="fade"
+				hideEffect="fade" widgetVar="proyectosDialog">
+
+				<h:panelGrid id="idPanelCrearProyectos" columns="2">
+					<p:outputLabel for="idInputNombreProyectos" value="nombre: "
+						style="font-weight:bold" />
+					<p:inputText id="idInputNombreProyectos"
+						value="#{proyectoController.nombre}" />
+					<p:outputLabel for="idInputDescripcionProyectos"
+						value="Descripción: " style="font-weight:bold" />
+					<p:inputText id="idInputDescripcionProyectos"
+						value="#{proyectoController.descripcion}" />
+				</h:panelGrid>
+
+				<p:commandButton id="idButtonGuardarProyectos"
+					update="formProyectos:tableNombre,formProyectos,:#{p:component('pnl')}"
+					ajax="true" type="submit" value="Guardar"
+					oncomplete="PF('proyectosDialog').hide()"
+					actionListener="#{proyectoController.crearProyectos}" />
+
+				<p:commandButton id="SalirInsertarProyectos" value="Salir"
+					onclick="PF('proyectosDialog').hide()" />
+			</p:dialog>
+
+			<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+				widgetVar="proyectosEliminarDialog">
+
+				<h:panelGrid id="idPanelEliminarProyectos" columns="2">
+					<p>¿Desea eliminar el registro?</p>
+				</h:panelGrid>
+
+				<p:commandButton id="eliminarConfirmarProyectos" value="Si"
+					type="submit" ajax="true"
+					update="formProyectos:tableNombre,formProyectos,:#{p:component('pnl')}"
+					actionListener="#{proyectoController.eliminarProyectos}"
+					oncomplete="PF('eliminarSalirProyectos').hide()" />
+				<p:commandButton id="eliminarSalirProyectos" value="No"
+					onclick="PF('eliminarSalirProyectos').hide()" />
+			</p:dialog>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

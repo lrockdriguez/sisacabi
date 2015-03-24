@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Sisacabi V 9.1</title>
+</h:head>
+
+<h:body>
+
+	<h:form id="formTema">
+		<h1>Selecciona la tema</h1>
+		<p:panel id="pnl" header="Temas" style="margin-bottom:10px;"
+			rendered="true">
+			<!-- 
+			<p:blockUI block="formActividad"
+				trigger="idButtonGuardarActividad,eliminarConfirmarActividad">
+       							 CARGANDO<br />
+				<p:ajaxStatus id="ajaxStatusPanel" style="margin-top:0"
+					update="@form">
+					<f:facet name="start">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+					<f:facet name="complete">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+				</p:ajaxStatus>
+				<p:graphicImage name="demo/images/ajaxloadingbar.gif" /> 
+			</p:blockUI>-->
+			<p:dataTable id="tableNombre" widgetVar="dataTableWidgetVar"
+				var="tema" value="#{temaController.listaTema}"
+				rows="10" selectionMode="single"
+				selection="#{temaController.tema}"
+				rowKey="#{tema.idTema}" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30">
+				<p:ajax event="rowSelect"
+					update=":#{p:component('idInputNombreTema')},:#{p:component('idInputDescripcionTema')}"
+					listener="#{temaController.onRowSelect}" />
+
+
+				<!-- <p:column headerText="Id">
+				<h:outputText value="#{tema.idEstado}" />
+			</p:column> -->
+
+
+				<p:column headerText="nombre">
+					<h:outputText value="#{tema.nombre}" />
+				</p:column>
+
+
+				<p:column headerText="Descripcion">
+					<h:outputText value="#{tema.descripcion}" />
+				</p:column>
+
+
+
+			</p:dataTable>
+
+			<p:commandButton id="idButtonCrearTema"
+				oncomplete="PF('temaDialog').show()" value="Crear"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="actualizaTema"
+				oncomplete="PF('temaDialog').show()" value="Actualizar"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="eliminarTema" value="Eliminar"
+				oncomplete="PF('temaEliminarDialog').show()" />
+
+			<p:dialog id="idTemaDialog" modal="true" showEffect="fade"
+				hideEffect="fade" widgetVar="temaDialog">
+
+				<h:panelGrid id="idPanelCrearTema" columns="2">
+					<p:outputLabel for="idInputNombreTema" value="nombre: "
+						style="font-weight:bold" />
+					<p:inputText id="idInputNombreTema"
+						value="#{temaController.nombre}" />
+					<p:outputLabel for="idInputDescripcionTema"
+						value="Descripción: " style="font-weight:bold" />
+					<p:inputText id="idInputDescripcionTema"
+						value="#{temaController.descripcion}"/> 
+			</h:panelGrid>
+
+				<p:commandButton id="idButtonGuardarTema"
+					update="formTema:tableNombre,formTema,:#{p:component('pnl')}"
+					ajax="true" type="submit" value="Guardar"
+					oncomplete="PF('temaDialog').hide()"
+					actionListener="#{temaController.crearTema}" />
+
+				<p:commandButton id="SalirInsertarTema" value="Salir"
+					onclick="PF('temaDialog').hide()" />
+			</p:dialog>
+
+			<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+				widgetVar="temaEliminarDialog">
+
+				<h:panelGrid id="idPanelEliminarTema" columns="2">
+					<p>¿Desea eliminar el registro?</p>
+				</h:panelGrid>
+
+				<p:commandButton id="eliminarConfirmarTema" value="Si"
+					type="submit" ajax="true"
+					update="formTema:tableNombre,formTema,:#{p:component('pnl')}"
+					actionListener="#{temaController.eliminarTema}"
+					oncomplete="PF('eliminarSalirTema').hide()" />
+				<p:commandButton id="eliminarSalirTema" value="No"
+					onclick="PF('eliminarSalirTema').hide()" />
+			</p:dialog>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

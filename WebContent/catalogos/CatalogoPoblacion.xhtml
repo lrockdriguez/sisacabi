@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Sisacabi V 9.1</title>
+</h:head>
+
+<h:body>
+
+	<h:form id="formPoblacion">
+		<h1>Selecciona la poblacion</h1>
+		<p:panel id="pnl" header="Poblaciones" style="margin-bottom:10px;"
+			rendered="true">
+			<!-- 
+			<p:blockUI block="formPoblacion"
+				trigger="idButtonGuardarPoblacion,eliminarConfirmarPoblacion">
+       							 CARGANDO<br />
+				<p:ajaxStatus id="ajaxStatusPanel" style="margin-top:0"
+					update="@form">
+					<f:facet name="start">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+					<f:facet name="complete">
+						<h:graphicImage value="/resources/img/ajax_loading.gif" />
+					</f:facet>
+				</p:ajaxStatus>
+				<p:graphicImage name="demo/images/ajaxloadingbar.gif" /> 
+			</p:blockUI>-->
+			<p:dataTable id="tableNombre" widgetVar="dataTableWidgetVar"
+				var="poblacion" value="#{poblacionController.listaPoblacion}"
+				rows="10" selectionMode="single"
+				selection="#{poblacionController.poblacion}"
+				rowKey="#{poblacion.idsisddeqCPoblacion}" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30">
+				<p:ajax event="rowSelect"
+					update=":#{p:component('idInputNombrePoblacion')},:#{p:component('idInputDescripcionPoblacion')}"
+					listener="#{poblacionController.onRowSelect}" />
+
+
+				<!-- <p:column headerText="Id">
+				<h:outputText value="#{poblacion.idEstado}" />
+			</p:column> -->
+
+
+				<p:column headerText="nombre">
+					<h:outputText value="#{poblacion.nombre}" />
+				</p:column>
+
+
+				<p:column headerText="Descripcion">
+					<h:outputText value="#{poblacion.descripcion}" />
+				</p:column>
+
+
+
+			</p:dataTable>
+
+			<p:commandButton id="idButtonCrearPoblacion"
+				oncomplete="PF('poblacionDialog').show()" value="Crear"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="actualizaPoblacion"
+				oncomplete="PF('poblacionDialog').show()" value="Actualizar"
+				update=":#{p:component('pnl')}" />
+
+			<p:commandButton id="eliminarPoblacion" value="Eliminar"
+				oncomplete="PF('poblacionEliminarDialog').show()" />
+
+			<p:dialog id="idPoblacionDialog" modal="true" showEffect="fade"
+				hideEffect="fade" widgetVar="poblacionDialog">
+
+				<h:panelGrid id="idPanelCrearPoblacion" columns="2">
+					<p:outputLabel for="idInputNombrePoblacion" value="nombre: "
+						style="font-weight:bold" />
+					<p:inputText id="idInputNombrePoblacion"
+						value="#{poblacionController.nombre}" />
+					<p:outputLabel for="idInputDescripcionPoblacion"
+						value="Descripción: " style="font-weight:bold" />
+					<p:inputText id="idInputDescripcionPoblacion"
+						value="#{poblacionController.descripcion}" />
+				</h:panelGrid>
+
+				<p:commandButton id="idButtonGuardarPoblacion"
+					update="formPoblacion:tableNombre,formPoblacion,:#{p:component('pnl')}"
+					ajax="true" type="submit" value="Guardar"
+					oncomplete="PF('poblacionDialog').hide()"
+					actionListener="#{poblacionController.crearPoblacion}" />
+
+				<p:commandButton id="SalirInsertarPoblacion" value="Salir"
+					onclick="PF('poblacionDialog').hide()" />
+			</p:dialog>
+
+			<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+				widgetVar="poblacionEliminarDialog">
+
+				<h:panelGrid id="idPanelEliminarPoblacion" columns="2">
+					<p>¿Desea eliminar el registro?</p>
+				</h:panelGrid>
+
+				<p:commandButton id="eliminarConfirmarPoblacion" value="Si"
+					type="submit" ajax="true"
+					update="formPoblacion:tableNombre,formPoblacion,:#{p:component('pnl')}"
+					actionListener="#{poblacionController.eliminarPoblacion}"
+					oncomplete="PF('eliminarSalirPoblacion').hide()" />
+				<p:commandButton id="eliminarSalirPoblacion" value="No"
+					onclick="PF('eliminarSalirPoblacion').hide()" />
+			</p:dialog>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

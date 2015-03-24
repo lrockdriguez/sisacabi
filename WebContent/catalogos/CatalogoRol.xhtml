@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title></title>
+</h:head>
+
+<h:body> 
+	<h:form id="formRol">
+
+		<!-- <p:poll interval="1" update="tableRol" /> -->
+		<h1>Bienvenido a la pagina de consulta de rol</h1>
+		<!-- <h:outputLabel for="name" value="#{rolSisddeqController.usuario}"  /> -->
+		<p:dataTable 
+			widgetVar="dataTableWidgetVar" id="tableRol"
+			rendered="true" 
+			var="rol"
+			value="#{rolSisddeqController.listaRoles}" rows="10"
+			paginator="true" 
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="2,4,6">
+			
+			<p:column headerText="Id">
+				<h:outputText value="#{rol.idRol}" />
+			</p:column>
+
+			<p:column headerText="Descripcion">
+				<h:outputText value="#{rol.descripcion}" />
+			</p:column>
+			
+		</p:dataTable>
+		
+		
+		<p:commandButton id="actualizarRol"
+			actionListener="#{rolSisddeqController.consultarRoles}"
+			update="@all" process="@this" ajax="true" value="Actualizar"
+			oncomplete="dataTableWidgetVar.filter();" />
+	</h:form>
+</h:body>
+</html>
