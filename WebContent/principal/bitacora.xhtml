@@ -24,16 +24,20 @@
 				value="#{bitacoraSisddeqController.fechaBitacora}"
 				pattern="dd/MM/yyyy" disabled="true" />
 			<h:panelGrid columns="2">
-				<p:outputLabel for="horas" value="Horas: " />
+			
+			
+			<!--	<p:outputLabel for="horas" value="Horas: " />
 				<p:inputText id="horas" value="#{bitacoraSisddeqController.horas}"
 					style="width:50px" />
+					
+					
 				<p:outputLabel for="asistentes" value="Asistentes: " />
 				<p:inputText id="asistentes"
-					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />
+					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />-->
+					
+					
 				<p:outputLabel for="customRadio" value="Fecha conmemorativa: " />
-				
-				
-				<p:selectOneRadio id="customRadio"
+					<p:selectOneRadio id="customRadio"
 					value="#{bitacoraSisddeqController.accionFechaConmemorativas}">
 					<f:selectItem itemLabel="Si" itemValue="1" />
 					<f:selectItem itemLabel="No" itemValue="0" />
@@ -48,6 +52,7 @@
 				</p:selectOneRadio>
 				
 			</h:panelGrid>
+			
 
 			<p:pickList id="pickList"
 				value="#{bitacoraSisddeqController.actividadesDualModel}"
@@ -55,6 +60,8 @@
 				itemValue="#{actividades}" />
 			<h:panelGrid columns="2">
 						<p:outputLabel for="actividad" value="Actividad: " />	
+						
+						
 									
 				<p:selectOneMenu id="actividad"
 					value="#{bitacoraSisddeqController.sisddeqCEstadoActividadSelect}"
@@ -95,6 +102,27 @@
 					<f:selectItems value="#{bitacoraSisddeqController.mapaTema}" />
 				</p:selectOneMenu>
 				
+				
+				<h3>Instituciones</h3>
+				<p:inputTextarea value="#{bitacoraSisddeqController.instituciones}"
+					rows="10" cols="50" counter="display" maxlength="500"
+					counterTemplate="{0} Caracteres restantes." autoResize="false" />
+				<h:outputText id="display" />
+				<h:outputText id="instituciones"
+					value="Capturar sus comentarios que no exedan de 500 caracteres." />
+					
+					
+					<p:outputLabel for="horas" value="Horas: " />
+				<p:inputText id="horas" value="#{bitacoraSisddeqController.horas}"
+					style="width:50px" />
+					
+					
+				<p:outputLabel for="asistentes" value="Asistentes: " />
+				<p:inputText id="asistentes"
+					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />
+					
+					
+				
 				<p:outputLabel for="poblacion" value="Población: " />
 				<p:selectOneMenu id="poblacion"
 					value="#{bitacoraSisddeqController.sisddeqCPoblacionSelect}"
@@ -123,14 +151,7 @@
 					<f:selectItems value="#{bitacoraSisddeqController.mapaProyecto}" />
 				</p:selectOneMenu>
 
-
-				<h3>Instituciones</h3>
-				<p:inputTextarea value="#{bitacoraSisddeqController.instituciones}"
-					rows="10" cols="50" counter="display" maxlength="500"
-					counterTemplate="{0} Caracteres restantes." autoResize="false" />
-				<h:outputText id="display" />
-				<h:outputText id="instituciones"
-					value="Capturar sus comentarios que no exedan de 500 caracteres." />
+				
 
 
 
