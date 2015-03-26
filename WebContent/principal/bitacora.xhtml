@@ -24,8 +24,20 @@
 				value="#{bitacoraSisddeqController.fechaBitacora}"
 				pattern="dd/MM/yyyy" disabled="true" />
 			
-												
-	     <!--   <p:outputLabel for="horas" value="Horas: " />
+		<p:outputLabel for="idEstados" value="Estados: " />
+            <p:selectOneMenu id="idEstados" value="#{bitacoraSisddeqController.estado}" style="width:150px">
+                <p:ajax listener="#{bitacoraSisddeqController.onEstadoChange}" update="city" />
+                <f:selectItem itemLabel="Selecciona Estados" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{bitacoraSisddeqController.mapaEstados}" />
+            </p:selectOneMenu>
+            
+            <p:outputLabel for="idMunicipios" value="Municipios: " />
+            <p:selectOneMenu id="idMunicipios" value="#{bitacoraSisddeqController.municipio}" style="width:150px">
+                <f:selectItem itemLabel="Selecciona Municipios" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{bitacoraSisddeqController.mapaMunicipios}" />
+            </p:selectOneMenu>
+            										
+	     <!--<p:outputLabel for="horas" value="Horas: " />
 				<p:inputText id="horas" value="#{bitacoraSisddeqController.horas}"
 					style="width:40px" />
 										
@@ -33,7 +45,7 @@
 				<p:inputText id="asistentes"
 					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />-->
 								
-			<!-- 	<p:outputLabel for="customRadio" value="Fecha conmemorativa: " />
+			<!--<p:outputLabel for="customRadio" value="Fecha conmemorativa: " />
 				<p:selectOneRadio id="customRadio"
 					value="#{bitacoraSisddeqController.accionFechaConmemorativas}">
 					<f:selectItem itemLabel="Si" itemValue="1" />
@@ -85,8 +97,16 @@
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaProposito}" />
 				</p:selectOneMenu>
+				</h:panelGrid>
 				
-			
+				
+				<h3 style="margin-top: 0">Selecciona solo hasta tres temas</h3>
+				<p:pickList id="pickList"
+				value="#{bitacoraSisddeqController.listaTema}"
+				var="tema" itemLabel="#{tema}"
+				itemValue="#{tema}" />
+					
+				
 				
 			<!--<p:outputLabel for="proposito" value="Tema: " />
 				           
@@ -98,16 +118,15 @@
 					<f:selectItems value="#{bitacoraSisddeqController.mapaTema}" />
 				</p:selectOneMenu> -->
 				
-				
-				
-				
+							
+				<h:panelGrid columns="2">
 				<h3>Instituciones</h3>
 				<p:inputTextarea value="#{bitacoraSisddeqController.instituciones}"
 					rows="10" cols="50" counter="display" maxlength="500"
 					counterTemplate="{0} Caracteres restantes." autoResize="false" />
 				<h:outputText id="display" />
 				<h:outputText id="instituciones"
-					value="Capturar sus comentarios que no exedan de 500 caracteres." />
+					value="Instituciones u organizaciones con quien se impulsó (poner todas las involucradas) ." />
 					
 					
 				<p:outputLabel for="horas" value="Horas: " />
@@ -152,6 +171,7 @@
 					<f:selectItems value="#{bitacoraSisddeqController.mapaSector}" />
 				</p:selectOneMenu>
 				
+										
 				
 				<p:outputLabel for="proyecto" value="Proyecto: " />
 				<p:selectOneMenu id="proyecto"

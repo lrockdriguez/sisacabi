@@ -2,32 +2,33 @@ package com.equidad.sisddeq.service.impl;
 
 import java.util.List;
 
+import com.equidad.sisddeq.DAO.BitacoraSisddeqDAO;
 import com.equidad.sisddeq.entidades.SisddeqTBitacora;
 import com.equidad.sisddeq.service.BitacoraSisddeqService;
 
 public class BitacoraSisddeqServiceImpl implements BitacoraSisddeqService {
 
-	public static BitacoraSisddeqServiceImpl bitacoraSisddeqServiceImpl = new BitacoraSisddeqServiceImpl();
+	public static BitacoraSisddeqDAO bitacoraSisddeqDAOImpl = new com.equidad.sisddeq.DAO.Impl.BitacoraSisddeqDAOImpl();
 	
-	@Override
-	public List<SisddeqTBitacora> consultaBitacora() {
-		return bitacoraSisddeqServiceImpl.consultaBitacora();
-	}
 
 	@Override
 	public void crearBitacora(SisddeqTBitacora sisddeqTBitacora) {
-		bitacoraSisddeqServiceImpl.crearBitacora(sisddeqTBitacora);
-		
+		bitacoraSisddeqDAOImpl.crear(sisddeqTBitacora);
 	}
 
 	@Override
 	public void eliminarBitacora(SisddeqTBitacora sisddeqTBitacora) {
-		bitacoraSisddeqServiceImpl.eliminarBitacora(sisddeqTBitacora);
+		bitacoraSisddeqDAOImpl.borrar(sisddeqTBitacora.getIdBitacora());
 	}
 
 	@Override
 	public SisddeqTBitacora consultaBitacoraPorId(int idBitacora) {
-		return bitacoraSisddeqServiceImpl.consultaBitacoraPorId(idBitacora);
+		return bitacoraSisddeqDAOImpl.buscaPorId(idBitacora);
+	}
+
+	@Override
+	public List<SisddeqTBitacora> consultaBitacora() {
+		return null;
 	}
 
 

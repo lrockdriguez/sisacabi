@@ -19,8 +19,8 @@ public class Municipio implements Serializable {
 
 	private String clave;
 
-	// @Column(name="estado_id")
-	//private int estadoId;
+	@Column(name="estado_id")
+	private int estadoId;
 
 	private String nombre;
 
@@ -45,13 +45,13 @@ public class Municipio implements Serializable {
 		this.clave = clave;
 	}
 
-//	public int getEstadoId() {
-//		return this.estadoId;
-//	}
-//
-//	public void setEstadoId(int estadoId) {
-//		this.estadoId = estadoId;
-//	}
+	public int getEstadoId() {
+		return this.estadoId;
+	}
+
+	public void setEstadoId(int estadoId) {
+		this.estadoId = estadoId;
+	}
 
 	public String getNombre() {
 		return this.nombre;

@@ -26,8 +26,8 @@ public class Localidade implements Serializable {
 
 	private String longitud;
 
-	//@Column(name="municipio_id")
-	//private int municipioId;
+	@Column(name="municipio_id")
+	private int municipioId;
 
 	private String nombre;
 
@@ -74,13 +74,13 @@ public class Localidade implements Serializable {
 		this.longitud = longitud;
 	}
 
-//	public int getMunicipioId() {
-//		return this.municipioId;
-//	}
-//
-//	public void setMunicipioId(int municipioId) {
-//		this.municipioId = municipioId;
-//	}
+	public int getMunicipioId() {
+		return this.municipioId;
+	}
+
+	public void setMunicipioId(int municipioId) {
+		this.municipioId = municipioId;
+	}
 
 	public String getNombre() {
 		return this.nombre;
