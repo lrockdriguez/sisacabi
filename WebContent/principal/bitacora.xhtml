@@ -23,40 +23,40 @@
 			<p:calendar id="Fecha"
 				value="#{bitacoraSisddeqController.fechaBitacora}"
 				pattern="dd/MM/yyyy" disabled="true" />
+
 			
-												
-	     <!--   <p:outputLabel for="horas" value="Horas: " />
-				<p:inputText id="horas" value="#{bitacoraSisddeqController.horas}"
-					style="width:40px" />
-										
-			<p:outputLabel for="asistentes" value="Asistentes: " />
-				<p:inputText id="asistentes"
-					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />-->
-								
-			<!-- 	<p:outputLabel for="customRadio" value="Fecha conmemorativa: " />
-				<p:selectOneRadio id="customRadio"
-					value="#{bitacoraSisddeqController.accionFechaConmemorativas}">
-					<f:selectItem itemLabel="Si" itemValue="1" />
-					<f:selectItem itemLabel="No" itemValue="0" />
-				</p:selectOneRadio>-->
-				
-				<!-- <h:panelGrid columns="2">
-			<p:outputLabel for="customRadio2" value="Prescencia Medios: " />
-				
-				<p:selectOneRadio id="customRadio2"
-					value="#{bitacoraSisddeqController.accionPrescenciaMedios}">
-					<f:selectItem itemLabel="Si" itemValue="1" />
-					<f:selectItem itemLabel="No" itemValue="0" />
-				</p:selectOneRadio>
-				
- 	         <p:pickList id="pickList"
-				value="#{bitacoraSisddeqController.actividadesDualModel}"
-				var="actividades" itemLabel="#{actividades}"
-				itemValue="#{actividades}" />-->
-				
+
 			<h:panelGrid columns="2">
-						<p:outputLabel for="actividad" value="Actividad: " />	
-									
+			
+			<p:outputLabel for="idEstados" value="Estados: " />
+			<p:selectOneMenu id="idEstados"
+				value="#{bitacoraSisddeqController.estado}" style="width:220px">
+					<p:ajax listener="#{bitacoraSisddeqController.onEstadoChange}"
+						update=":#{p:component('idMunicipios')},:#{p:component('pnl')}" />
+					<f:selectItem 
+					itemLabel="Selecciona Estados"
+					itemValue="#{bitacoraSisddeqController.idEstado}"
+					noSelectionOption="true" />
+				<f:selectItems value="#{bitacoraSisddeqController.mapaEstados}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="idMunicipios" value="Municipios: " />
+            <p:selectOneMenu id="idMunicipios" value="#{bitacoraSisddeqController.municipio}" style="width:220px">
+            <p:ajax listener="#{bitacoraSisddeqController.onMunicipioChange}"
+						update=":#{p:component('idMunicipios')},:#{p:component('pnl')}" />
+                <f:selectItem itemLabel="Selecciona Municipio" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{bitacoraSisddeqController.mapaMunicipios}" />
+            </p:selectOneMenu>
+            
+            
+            <p:outputLabel for="idLocalidades" value="Localidades: " />
+            <p:selectOneMenu id="idLocalidades" value="#{bitacoraSisddeqController.localidad}" style="width:220px">
+                <f:selectItem itemLabel="Selecciona Localidad" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{bitacoraSisddeqController.mapaLocalidades}" />
+            </p:selectOneMenu>
+            
+				<p:outputLabel for="actividad" value="Actividad: " />
+
 				<p:selectOneMenu id="actividad"
 					value="#{bitacoraSisddeqController.sisddeqCEstadoActividadSelect}"
 					style="width:300px">
@@ -64,19 +64,19 @@
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaActividad}" />
 				</p:selectOneMenu>
-				
-				
+
+
 				<p:outputLabel for="origen" value="Origen Asistencia: " />
 				<p:selectOneMenu id="origen"
 					value="#{bitacoraSisddeqController.origenAsistenciaSelect }"
 					style="width:300px">
-					
+
 					<f:selectItem itemLabel="Selecciona el Origen" itemValue=""
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaOrigenes}" />
 				</p:selectOneMenu>
-				
-				
+
+
 				<p:outputLabel for="proposito" value="Propósito: " />
 				<p:selectOneMenu id="proposito"
 					value="#{bitacoraSisddeqController.sisddeqCPropositoSelect}"
@@ -85,43 +85,37 @@
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaProposito}" />
 				</p:selectOneMenu>
-				
-			
-				
-			<!--<p:outputLabel for="proposito" value="Tema: " />
-				           
-		        <p:selectOneMenu id="tema"
-					value="#{bitacoraSisddeqController.sisddeqCTemaSelect}"
-					style="width:300px">
-					<f:selectItem itemLabel="Selecciona el tema" itemValue=""
-						noSelectionOption="true" />
-					<f:selectItems value="#{bitacoraSisddeqController.mapaTema}" />
-				</p:selectOneMenu> -->
-				
-				
-				
-				
+			</h:panelGrid>
+
+
+			<h3 style="margin-top: 0">Selecciona solo hasta tres temas</h3>
+			<p:pickList id="pickList"
+				value="#{bitacoraSisddeqController.listaTema}" var="tema"
+				itemLabel="#{tema}" itemValue="#{tema}" />
+
+
+			<h:panelGrid columns="2">
 				<h3>Instituciones</h3>
 				<p:inputTextarea value="#{bitacoraSisddeqController.instituciones}"
 					rows="10" cols="50" counter="display" maxlength="500"
 					counterTemplate="{0} Caracteres restantes." autoResize="false" />
 				<h:outputText id="display" />
 				<h:outputText id="instituciones"
-					value="Capturar sus comentarios que no exedan de 500 caracteres." />
-					
-					
+					value="Instituciones u organizaciones con quien se impulsó (poner todas las involucradas) ." />
+
+
 				<p:outputLabel for="horas" value="Horas: " />
 				<p:inputText id="horas" value="#{bitacoraSisddeqController.horas}"
-					style="width:40px" />	
-					
-					
+					style="width:40px" />
+
+
 				<p:outputLabel for="asistentes" value="Asistentes: " />
 				<p:inputText id="asistentes"
-					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />	
-					
-				
-									
-				
+					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />
+
+
+
+
 				<p:outputLabel for="poblacion" value="Población: " />
 				<p:selectOneMenu id="poblacion"
 					value="#{bitacoraSisddeqController.sisddeqCPoblacionSelect}"
@@ -130,20 +124,20 @@
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaPoblacion}" />
 				</p:selectOneMenu>
-				
-				
-				
+
+
+
 				<p:outputLabel for="customRadio2" value="Prescencia Medios: " />
-				
+
 				<p:selectOneRadio id="customRadio2"
 					value="#{bitacoraSisddeqController.accionPrescenciaMedios}">
 					<f:selectItem itemLabel="Si" itemValue="1" />
 					<f:selectItem itemLabel="No" itemValue="0" />
 				</p:selectOneRadio>
-				
-				
 
-				<p:outputLabel for="proposito" value="Sector: " />
+
+
+				<p:outputLabel for="sector" value="Sector: " />
 				<p:selectOneMenu id="sector"
 					value="#{bitacoraSisddeqController.sisddeqCSectorSelect}"
 					style="width:300px">
@@ -151,8 +145,9 @@
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaSector}" />
 				</p:selectOneMenu>
-				
-				
+
+
+
 				<p:outputLabel for="proyecto" value="Proyecto: " />
 				<p:selectOneMenu id="proyecto"
 					value="#{bitacoraSisddeqController.sisddeqCProyectoSelect}"
@@ -161,29 +156,27 @@
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaProyecto}" />
 				</p:selectOneMenu>
-				
+
 				<h3>Comentarios</h3>
 				<p:inputTextarea value="#{bitacoraSisddeqController.comentarios}"
 					rows="10" cols="50" counter="display" maxlength="500"
 					counterTemplate="{0} Caracteres restantes." autoResize="false" />
-				<h:outputText id="display" />
+				
 				<h:outputText id="comentarios"
 					value="Capturar sus comentarios que no exedan de 500 caracteres." />
-				
-				
-				<p:outputLabel for="customRadio" value="Fecha conmemorativa: " />
-				<p:selectOneRadio id="customRadio"
+
+
+				<p:outputLabel for="customRadio3" value="Fecha conmemorativa: " />
+				<p:selectOneRadio id="customRadio3"
 					value="#{bitacoraSisddeqController.accionFechaConmemorativas}">
 					<f:selectItem itemLabel="Si" itemValue="1" />
 					<f:selectItem itemLabel="No" itemValue="0" />
-					</p:selectOneRadio>
+				</p:selectOneRadio>
 			</h:panelGrid>
-			
-			
 
-			<!-- <p:commandButton id="citySubmit" value="Submit"
-				update="displayCities" oncomplete="PF('cityDialog').show()"
-				style="margin-top:5px" /> -->
+
+
+
 		</p:panel>
 	</h:form>
 </h:body>

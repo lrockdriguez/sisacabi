@@ -13,9 +13,13 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
 
 import org.primefaces.model.DualListModel;
 
+import com.equidad.sisddeq.entidades.Estado;
+import com.equidad.sisddeq.entidades.Localidade;
+import com.equidad.sisddeq.entidades.Municipio;
 import com.equidad.sisddeq.entidades.SisddeqCEstadoActividad;
 import com.equidad.sisddeq.entidades.SisddeqCPoblacion;
 import com.equidad.sisddeq.entidades.SisddeqCProposito;
@@ -25,6 +29,9 @@ import com.equidad.sisddeq.entidades.SisddeqCTema;
 import com.equidad.sisddeq.entidades.SisddeqTOrigenAsistencia;
 import com.equidad.sisddeq.service.BitacoraSisddeqService;
 import com.equidad.sisddeq.service.EstadoActividadSisddeqService;
+import com.equidad.sisddeq.service.EstadosSisddeqService;
+import com.equidad.sisddeq.service.LocalidadesSisddeqService;
+import com.equidad.sisddeq.service.MunicipioSisddeqService;
 import com.equidad.sisddeq.service.OrigenAsistenciaSisddeqService;
 import com.equidad.sisddeq.service.PoblacionSisddeqService;
 import com.equidad.sisddeq.service.PropositoSisddeqService;
@@ -33,6 +40,9 @@ import com.equidad.sisddeq.service.SectorSisddeqService;
 import com.equidad.sisddeq.service.TemaSisddeqService;
 import com.equidad.sisddeq.service.impl.BitacoraSisddeqServiceImpl;
 import com.equidad.sisddeq.service.impl.EstadoActividadSisddeqServiceImpl;
+import com.equidad.sisddeq.service.impl.EstadosSisddeqServiceImpl;
+import com.equidad.sisddeq.service.impl.LocalidadesSisddeqServiceImpl;
+import com.equidad.sisddeq.service.impl.MunicipioSisddeqServiceImpl;
 import com.equidad.sisddeq.service.impl.OrigenAsistenciaSisddeqServiceImpl;
 import com.equidad.sisddeq.service.impl.PoblacionSisddeqServiceImpl;
 import com.equidad.sisddeq.service.impl.PropositoSisddeqServiceImpl;
@@ -103,17 +113,29 @@ public class BitacoraSisddeqController implements Serializable {
 	/** The actividades source. */
 	private List<String> actividadesSource = new ArrayList<String>();
 	
-	private List<String> temaSource = new ArrayList<String>();
+	//private List<String> temaSource = new ArrayList<String>();
+	
+	private List<String> listaTemaSource = new ArrayList<String>();
 	
 	/** The actividades target. */
 	private List<String> actividadesTarget = new ArrayList<String>();
 	
+	//picklist
+	private List<String> listaTemaTarget = new ArrayList<String>();
+	
+	//pickList
 	private List<String> temaTarget = new ArrayList<String>();
+	
 	
 	private DualListModel<String> temaDuelList = new DualListModel<String>();
 	
 	/** The actividades dual model. */
 	private DualListModel<String> actividadesDualModel = new DualListModel<String>();
+	
+	//Añadido para el pickList
+	//private DualListModel<String> temaDualModel = new DualListModel<String>();
+	
+	private DualListModel<String> listaTema = new DualListModel<String>(); 
 	
 	/** The lista sisddeq c estado actividad. */
 	private  List<SisddeqCEstadoActividad> listaSisddeqCEstadoActividad = new ArrayList<SisddeqCEstadoActividad>();
@@ -155,10 +177,41 @@ public class BitacoraSisddeqController implements Serializable {
 	
 	private Map<String,String> mapaProyecto= new HashMap<String, String>(); 
 	
-	
 	private SisddeqCEstadoActividad sisddeqCEstadoActividadSelect = new SisddeqCEstadoActividad();
 	
 	private Map<String,String> mapaActividad= new HashMap<String, String>(); 
+	
+	private String estado="--Selecciona Estados--";
+	
+	private SelectItem selectItemEstado = new SelectItem();
+	
+	private int idEstado = 0;
+	
+	private String municipio=""; 
+	
+	private int idMunicipio = 0;
+	
+	private String localidad=""; 
+	
+	private Map<String,String> mapaEstados = new HashMap<String, String>();  
+	
+	private Map<String,String> mapaMunicipios= new HashMap<String, String>();
+	
+	private Map<String,String> mapaLocalidades= new HashMap<String, String>();
+	
+	private EstadosSisddeqService estadosSisddeqService = new EstadosSisddeqServiceImpl();
+	
+	private MunicipioSisddeqService municipioSisddeqService = new MunicipioSisddeqServiceImpl();
+	
+	private LocalidadesSisddeqService localidadesSisddeqService = new LocalidadesSisddeqServiceImpl();
+	
+	private  List<Estado> listaEstados= new ArrayList<Estado>();
+	
+	private  List<Municipio> listaMunicipios = new ArrayList<Municipio>();
+	
+	private  List<Localidade> listaLocalidades = new ArrayList<Localidade>();
+	
+	
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -176,6 +229,15 @@ public class BitacoraSisddeqController implements Serializable {
 				actividadesSource.add(actividadSingular.getNombre());
 			}
 			actividadesDualModel = new DualListModel<String>(actividadesSource, actividadesTarget);
+			
+			
+			
+			listaSisddeqCTema.addAll(temaSisddeqService.consultaTema());
+			for(SisddeqCTema temaSingular:listaSisddeqCTema){
+				listaTemaSource.add(temaSingular.getNombre());
+			}
+			
+			listaTema = new DualListModel<String> (listaTemaSource, listaTemaTarget);
 			
 			//Combo origen asistencia
 			listaSisddeqTOrigenAsistencia.addAll(origenAsistenciaSisddeqService.consultaOrigenAsistencia());
@@ -203,9 +265,8 @@ public class BitacoraSisddeqController implements Serializable {
 				mapaTema.put(
 						sisddeqCTema.getNombre(),String.valueOf(sisddeqCTema.getIdTema()));
 			}
-			//añadido para el pick list
-			temaDuelList = new DualListModel<String >(temaSource, temaTarget);
 			
+					
 			listaSisddeqCSector.addAll(sectorSisddeqService.consultaSector());
 			for(SisddeqCSector sisddeqCSector:listaSisddeqCSector){
 				mapaSector.put(
@@ -224,9 +285,48 @@ public class BitacoraSisddeqController implements Serializable {
 						sisddeqCProyecto.getNombre(),String.valueOf(sisddeqCProyecto.getIdProyecto()));
 			}
 			
+			listaEstados.addAll(estadosSisddeqService.consultaEstados());
+			for(Estado estadoInd : listaEstados){
+				System.out.println("ESTADOS::" + estadoInd.getId());
+				mapaEstados.put(estadoInd.getNombre(), String.valueOf(estadoInd.getId()));
+			}
 			
+					
 		} catch (Exception e) {
 			System.out.println("ERROR MB::" + e);
+		}
+	}
+	
+	public void onEstadoChange() {
+		//Este valor de estados viene del value de p:selectOneMenu, lo que necesitamos es este valor para poder hacer la busqueda por municipio para
+		//El siguiente combo. Una vez que tenemos el ID vamos a hacer la busqueda.
+		mapaMunicipios = new HashMap<String, String>();
+		System.out.println("Cambio de estado::"+estado );
+		if (estado != null && !estado.equals("")) {
+			listaMunicipios = municipioSisddeqService
+					.consultaMunicipioPorEstado(Integer.valueOf(estado));
+			for (Municipio municipioIndividual : listaMunicipios) {
+				System.out.println("Municipios::"+municipioIndividual.getNombre() );
+				mapaMunicipios.put(municipioIndividual.getNombre(),
+						String.valueOf(municipioIndividual.getId()));
+			}
+		} else {
+			mapaMunicipios = new HashMap<String, String>();
+		}
+	}
+	
+	public void onMunicipioChange() {
+		mapaLocalidades = new HashMap<String, String>();
+		System.out.println("Cambio de Localidad::"+municipio );
+		if (municipio!= null && !municipio.equals("")) {
+			listaLocalidades= localidadesSisddeqService.consultaLocalidadPorMunicipio(Integer.valueOf(municipio));
+			for (Localidade localidadIndividual : listaLocalidades) {
+				System.out.println("Localidades::"+localidadIndividual.getNombre() );
+				mapaLocalidades.put(localidadIndividual.getNombre(),
+						String.valueOf(localidadIndividual.getId()));
+			}
+		} else {
+			mapaLocalidades = new HashMap<String, String>();
 		}
 	}
 
@@ -519,20 +619,117 @@ public class BitacoraSisddeqController implements Serializable {
 		this.mapaActividad = mapaActividad;
 	}
 
-	public List<String> getTemaSource() {
-		return temaSource;
-	}
-
-	public void setTemaSource(List<String> temaSource) {
-		this.temaSource = temaSource;
-	}
-
+	
 	public List<String> getTemaTarget() {
 		return temaTarget;
 	}
 
 	public void setTemaTarget(List<String> temaTarget) {
 		this.temaTarget = temaTarget;
+	}
+
+	public DualListModel<String> getListaTema() {
+		return listaTema;
+	}
+
+	public void setListaTema(DualListModel<String> listaTema) {
+		this.listaTema = listaTema;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public int getIdEstado() {
+		return idEstado;
+	}
+
+	public void setIdEstado(int idEstado) {
+		this.idEstado = idEstado;
+	}
+
+	public String getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
+	}
+
+	public int getIdMunicipio() {
+		return idMunicipio;
+	}
+
+	public void setIdMunicipio(int idMunicipio) {
+		this.idMunicipio = idMunicipio;
+	}
+
+	public String getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
+	public Map<String, String> getMapaEstados() {
+		return mapaEstados;
+	}
+
+	public void setMapaEstados(Map<String, String> mapaEstados) {
+		this.mapaEstados = mapaEstados;
+	}
+
+	public Map<String, String> getMapaMunicipios() {
+		return mapaMunicipios;
+	}
+
+	public void setMapaMunicipios(Map<String, String> mapaMunicipios) {
+		this.mapaMunicipios = mapaMunicipios;
+	}
+
+	public Map<String, String> getMapaLocalidades() {
+		return mapaLocalidades;
+	}
+
+	public void setMapaLocalidades(Map<String, String> mapaLocalidades) {
+		this.mapaLocalidades = mapaLocalidades;
+	}
+
+	public List<Estado> getListaEstados() {
+		return listaEstados;
+	}
+
+	public void setListaEstados(List<Estado> listaEstados) {
+		this.listaEstados = listaEstados;
+	}
+
+	public List<Municipio> getListaMunicipios() {
+		return listaMunicipios;
+	}
+
+	public void setListaMunicipios(List<Municipio> listaMunicipios) {
+		this.listaMunicipios = listaMunicipios;
+	}
+
+	public List<Localidade> getListaLocalidades() {
+		return listaLocalidades;
+	}
+
+	public void setListaLocalidades(List<Localidade> listaLocalidades) {
+		this.listaLocalidades = listaLocalidades;
+	}
+
+	public SelectItem getSelectItemEstado() {
+		return selectItemEstado;
+	}
+
+	public void setSelectItemEstado(SelectItem selectItemEstado) {
+		this.selectItemEstado = selectItemEstado;
 	}
 
 		
