@@ -103,8 +103,14 @@ public class BitacoraSisddeqController implements Serializable {
 	/** The actividades source. */
 	private List<String> actividadesSource = new ArrayList<String>();
 	
+	private List<String> temaSource = new ArrayList<String>();
+	
 	/** The actividades target. */
 	private List<String> actividadesTarget = new ArrayList<String>();
+	
+	private List<String> temaTarget = new ArrayList<String>();
+	
+	private DualListModel<String> temaDuelList = new DualListModel<String>();
 	
 	/** The actividades dual model. */
 	private DualListModel<String> actividadesDualModel = new DualListModel<String>();
@@ -125,7 +131,7 @@ public class BitacoraSisddeqController implements Serializable {
 	
 	private Map<String,String> mapaProposito = new HashMap<String, String>();  
 	
-	private List<SisddeqCTema> listaSisddeqCTema = new ArrayList<SisddeqCTema>(); 
+	private List<SisddeqCTema> listaSisddeqCTema =	 new ArrayList<SisddeqCTema>(); 
 	 
 	private SisddeqCTema SisddeqCTemaSelect = new SisddeqCTema();
 	
@@ -197,6 +203,8 @@ public class BitacoraSisddeqController implements Serializable {
 				mapaTema.put(
 						sisddeqCTema.getNombre(),String.valueOf(sisddeqCTema.getIdTema()));
 			}
+			//añadido para el pick list
+			temaDuelList = new DualListModel<String >(temaSource, temaTarget);
 			
 			listaSisddeqCSector.addAll(sectorSisddeqService.consultaSector());
 			for(SisddeqCSector sisddeqCSector:listaSisddeqCSector){
@@ -509,6 +517,22 @@ public class BitacoraSisddeqController implements Serializable {
 
 	public void setMapaActividad(Map<String, String> mapaActividad) {
 		this.mapaActividad = mapaActividad;
+	}
+
+	public List<String> getTemaSource() {
+		return temaSource;
+	}
+
+	public void setTemaSource(List<String> temaSource) {
+		this.temaSource = temaSource;
+	}
+
+	public List<String> getTemaTarget() {
+		return temaTarget;
+	}
+
+	public void setTemaTarget(List<String> temaTarget) {
+		this.temaTarget = temaTarget;
 	}
 
 		

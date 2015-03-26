@@ -23,27 +23,25 @@
 			<p:calendar id="Fecha"
 				value="#{bitacoraSisddeqController.fechaBitacora}"
 				pattern="dd/MM/yyyy" disabled="true" />
-			<h:panelGrid columns="2">
 			
-			
-			<!--	<p:outputLabel for="horas" value="Horas: " />
+												
+	     <!--   <p:outputLabel for="horas" value="Horas: " />
 				<p:inputText id="horas" value="#{bitacoraSisddeqController.horas}"
-					style="width:50px" />
-					
-					
-				<p:outputLabel for="asistentes" value="Asistentes: " />
+					style="width:40px" />
+										
+			<p:outputLabel for="asistentes" value="Asistentes: " />
 				<p:inputText id="asistentes"
 					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />-->
-					
-					
-				<p:outputLabel for="customRadio" value="Fecha conmemorativa: " />
-					<p:selectOneRadio id="customRadio"
+								
+			<!-- 	<p:outputLabel for="customRadio" value="Fecha conmemorativa: " />
+				<p:selectOneRadio id="customRadio"
 					value="#{bitacoraSisddeqController.accionFechaConmemorativas}">
 					<f:selectItem itemLabel="Si" itemValue="1" />
 					<f:selectItem itemLabel="No" itemValue="0" />
-				</p:selectOneRadio>
+				</p:selectOneRadio>-->
 				
-				<p:outputLabel for="customRadio2" value="Prescencia Medios: " />
+				<!-- <h:panelGrid columns="2">
+			<p:outputLabel for="customRadio2" value="Prescencia Medios: " />
 				
 				<p:selectOneRadio id="customRadio2"
 					value="#{bitacoraSisddeqController.accionPrescenciaMedios}">
@@ -51,17 +49,13 @@
 					<f:selectItem itemLabel="No" itemValue="0" />
 				</p:selectOneRadio>
 				
-			</h:panelGrid>
-			
-
-			<p:pickList id="pickList"
+ 	         <p:pickList id="pickList"
 				value="#{bitacoraSisddeqController.actividadesDualModel}"
 				var="actividades" itemLabel="#{actividades}"
-				itemValue="#{actividades}" />
+				itemValue="#{actividades}" />-->
+				
 			<h:panelGrid columns="2">
 						<p:outputLabel for="actividad" value="Actividad: " />	
-						
-						
 									
 				<p:selectOneMenu id="actividad"
 					value="#{bitacoraSisddeqController.sisddeqCEstadoActividadSelect}"
@@ -76,6 +70,7 @@
 				<p:selectOneMenu id="origen"
 					value="#{bitacoraSisddeqController.origenAsistenciaSelect }"
 					style="width:300px">
+					
 					<f:selectItem itemLabel="Selecciona el Origen" itemValue=""
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaOrigenes}" />
@@ -90,17 +85,20 @@
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaProposito}" />
 				</p:selectOneMenu>
-				<p:outputLabel for="proposito" value="Tema: " />
-
-
-
-				<p:selectOneMenu id="tema"
+				
+			
+				
+			<!--<p:outputLabel for="proposito" value="Tema: " />
+				           
+		        <p:selectOneMenu id="tema"
 					value="#{bitacoraSisddeqController.sisddeqCTemaSelect}"
 					style="width:300px">
 					<f:selectItem itemLabel="Selecciona el tema" itemValue=""
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaTema}" />
-				</p:selectOneMenu>
+				</p:selectOneMenu> -->
+				
+				
 				
 				
 				<h3>Instituciones</h3>
@@ -112,16 +110,17 @@
 					value="Capturar sus comentarios que no exedan de 500 caracteres." />
 					
 					
-					<p:outputLabel for="horas" value="Horas: " />
+				<p:outputLabel for="horas" value="Horas: " />
 				<p:inputText id="horas" value="#{bitacoraSisddeqController.horas}"
-					style="width:50px" />
+					style="width:40px" />	
 					
 					
 				<p:outputLabel for="asistentes" value="Asistentes: " />
 				<p:inputText id="asistentes"
-					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />
+					value="#{bitacoraSisddeqController.asistentes}" style="width:50px" />	
 					
-					
+				
+									
 				
 				<p:outputLabel for="poblacion" value="Población: " />
 				<p:selectOneMenu id="poblacion"
@@ -131,6 +130,18 @@
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaPoblacion}" />
 				</p:selectOneMenu>
+				
+				
+				
+				<p:outputLabel for="customRadio2" value="Prescencia Medios: " />
+				
+				<p:selectOneRadio id="customRadio2"
+					value="#{bitacoraSisddeqController.accionPrescenciaMedios}">
+					<f:selectItem itemLabel="Si" itemValue="1" />
+					<f:selectItem itemLabel="No" itemValue="0" />
+				</p:selectOneRadio>
+				
+				
 
 				<p:outputLabel for="proposito" value="Sector: " />
 				<p:selectOneMenu id="sector"
@@ -150,11 +161,7 @@
 						noSelectionOption="true" />
 					<f:selectItems value="#{bitacoraSisddeqController.mapaProyecto}" />
 				</p:selectOneMenu>
-
 				
-
-
-
 				<h3>Comentarios</h3>
 				<p:inputTextarea value="#{bitacoraSisddeqController.comentarios}"
 					rows="10" cols="50" counter="display" maxlength="500"
@@ -162,18 +169,17 @@
 				<h:outputText id="display" />
 				<h:outputText id="comentarios"
 					value="Capturar sus comentarios que no exedan de 500 caracteres." />
+				
+				
+				<p:outputLabel for="customRadio" value="Fecha conmemorativa: " />
+				<p:selectOneRadio id="customRadio"
+					value="#{bitacoraSisddeqController.accionFechaConmemorativas}">
+					<f:selectItem itemLabel="Si" itemValue="1" />
+					<f:selectItem itemLabel="No" itemValue="0" />
+					</p:selectOneRadio>
 			</h:panelGrid>
-
-
-
-
-
-
-
-
-
-
-
+			
+			
 
 			<!-- <p:commandButton id="citySubmit" value="Submit"
 				update="displayCities" oncomplete="PF('cityDialog').show()"
