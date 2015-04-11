@@ -13,6 +13,8 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
+
 
 import org.primefaces.model.DualListModel;
 
@@ -180,7 +182,11 @@ public class BitacoraSisddeqController implements Serializable {
 	
 	private Map<String,String> mapaActividad= new HashMap<String, String>(); 
 	
-	private String estado="";
+
+	private String estado="--Selecciona Estados--";
+	
+	private SelectItem selectItemEstado = new SelectItem();
+
 	
 	private int idEstado = 0;
 	
@@ -284,7 +290,8 @@ public class BitacoraSisddeqController implements Serializable {
 			
 			listaEstados.addAll(estadosSisddeqService.consultaEstados());
 			for(Estado estadoInd : listaEstados){
-				mapaEstados.put(estadoInd.getNombre(), String.valueOf(estadoInd .getId()));
+				System.out.println("ESTADOS::" + estadoInd.getId());
+				mapaEstados.put(estadoInd.getNombre(), String.valueOf(estadoInd.getId()));
 			}
 			
 					
@@ -294,10 +301,17 @@ public class BitacoraSisddeqController implements Serializable {
 	}
 	
 	public void onEstadoChange() {
+
+		//Este valor de estados viene del value de p:selectOneMenu, lo que necesitamos es este valor para poder hacer la busqueda por municipio para
+		//El siguiente combo. Una vez que tenemos el ID vamos a hacer la busqueda.
+		mapaMunicipios = new HashMap<String, String>();
+		System.out.println("Cambio de estado::"+estado );
 		if (estado != null && !estado.equals("")) {
 			listaMunicipios = municipioSisddeqService
-					.consultaMunicipioPorEstado(idEstado);
+					.consultaMunicipioPorEstado(Integer.valueOf(estado));
 			for (Municipio municipioIndividual : listaMunicipios) {
+				System.out.println("Municipios::"+municipioIndividual.getNombre() );
+
 				mapaMunicipios.put(municipioIndividual.getNombre(),
 						String.valueOf(municipioIndividual.getId()));
 			}
@@ -307,9 +321,14 @@ public class BitacoraSisddeqController implements Serializable {
 	}
 	
 	public void onMunicipioChange() {
+
+		mapaLocalidades = new HashMap<String, String>();
+		System.out.println("Cambio de Localidad::"+municipio );
 		if (municipio!= null && !municipio.equals("")) {
-			listaLocalidades= localidadesSisddeqService.consultaLocalidadPorMunicipio(idMunicipio);
+			listaLocalidades= localidadesSisddeqService.consultaLocalidadPorMunicipio(Integer.valueOf(municipio));
 			for (Localidade localidadIndividual : listaLocalidades) {
+				System.out.println("Localidades::"+localidadIndividual.getNombre() );
+
 				mapaLocalidades.put(localidadIndividual.getNombre(),
 						String.valueOf(localidadIndividual.getId()));
 			}
@@ -710,6 +729,11 @@ public class BitacoraSisddeqController implements Serializable {
 
 	public void setListaLocalidades(List<Localidade> listaLocalidades) {
 		this.listaLocalidades = listaLocalidades;
+	}
+
+
+	public void setSelectItemEstado(SelectItem selectItemEstado) {
+		this.selectItemEstado = selectItemEstado;
 	}
 
 		

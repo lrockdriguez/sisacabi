@@ -11,6 +11,7 @@ import com.equidad.sisddeq.entidades.Estado;
 import com.equidad.sisddeq.entidades.Localidade;
 import com.equidad.sisddeq.entidades.Municipio;
 
+
 public class LocalidadesSisddeqDAOImpl extends
 		GenericDAOImpl<Localidade, Integer> implements LocalidadesSisddeqDAO {
 
@@ -19,7 +20,9 @@ public class LocalidadesSisddeqDAOImpl extends
 		List<Localidade> listaLocalidade = new ArrayList<Localidade>();
 
 		TypedQuery<Localidade> query = em.createQuery(
-				"SELECT l FROM localidad l where l.municipioId = "+idMunicipio, Localidade.class);
+
+				"SELECT l FROM Localidade l where l.municipioId = "+idMunicipio, Localidade.class);
+
 		try {
 			listaLocalidade = query.getResultList();
 		} catch (Exception e) {

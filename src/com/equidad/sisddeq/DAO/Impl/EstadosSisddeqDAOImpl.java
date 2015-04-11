@@ -20,7 +20,9 @@ public class EstadosSisddeqDAOImpl extends GenericDAOImpl<Estado, Integer>
 		List<Estado> listaEstados = new ArrayList<Estado>();
 		
 		TypedQuery<Estado> query = em.createQuery(
-				"SELECT s FROM Estado s",
+
+				"SELECT s FROM Estado s ORDER BY s.id ASC",
+
 				Estado.class);
 		try {
 			listaEstados = query.getResultList();
